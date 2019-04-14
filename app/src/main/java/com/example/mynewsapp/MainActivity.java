@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mListView = (ListView) findViewById(R.id.lv_main);
+        new NewsAsyncTask().execute(URL);
     }
 
     private List<NewsBean> getJsonData(String url) {
@@ -84,6 +85,13 @@ public class MainActivity extends AppCompatActivity {
         protected List<NewsBean> doInBackground(String... params) {
             // get data from xml
             return getJsonData(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<NewsBean> newsBeans) {
+            super.onPostExecute(newsBeans);
+            NewsAdapter newsAdapter = new NewsAdapter(MainActivity.this, newsBeans);
+            mListView.setAdapter(newsAdapter);
         }
     }
 }
