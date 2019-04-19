@@ -1,8 +1,11 @@
 package com.example.mynewsapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -21,6 +24,7 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity {
     private ListView mListView;
     private static String URL = "http://www.imooc.com/api/teacher?type=4&num=30";
+    private List<NewsBean> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,15 @@ public class MainActivity extends AppCompatActivity {
 
         mListView = (ListView) findViewById(R.id.lv_main);
         new NewsAsyncTask().execute(URL);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, NewsDetailActivity.class);
+                intent.putExtra("newsTitle", mList.get(position).newTitle );
+                startActivity(intent);
+            }
+        });
     }
 
     private List<NewsBean> getJsonData(String url) {
@@ -91,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(List<NewsBean> newsBeans) {
             super.onPostExecute(newsBeans);
             NewsAdapter newsAdapter = new NewsAdapter(MainActivity.this, newsBeans);
+            mList = newsBeans;
             mListView.setAdapter(newsAdapter);
         }
     }
