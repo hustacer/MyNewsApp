@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -22,7 +24,8 @@ import java.util.List;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
-    private ListView mListView;
+//    private ListView mListView;
+    private RecyclerView mListView;
     private static String URL = "http://www.imooc.com/api/teacher?type=4&num=30";
     private List<NewsBean> mList;
 
@@ -31,17 +34,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mListView = (ListView) findViewById(R.id.lv_main);
+//        mListView = (ListView) findViewById(R.id.lv_main);
+        mListView = (RecyclerView) findViewById(R.id.lv_main);
         new NewsAsyncTask().execute(URL);
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, NewsDetailActivity.class);
-                intent.putExtra("newsTitle", mList.get(position).newTitle );
-                startActivity(intent);
-            }
-        });
+//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(MainActivity.this, NewsDetailActivity.class);
+//                intent.putExtra("newsTitle", mList.get(position).newTitle );
+//                startActivity(intent);
+//            }
+//        });
+        LinearLayoutManager linerLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mListView.setLayoutManager(linerLayoutManager);
     }
 
     private List<NewsBean> getJsonData(String url) {
