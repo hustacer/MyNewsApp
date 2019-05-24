@@ -43,6 +43,11 @@ public class MyFragmentAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return super.getPageTitle(position);
+        if (fragmentTitles != null) {
+            return fragmentTitles.get(position);
+        }
+        else {
+            return "";
+        }
     }
 }
